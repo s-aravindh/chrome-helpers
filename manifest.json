@@ -43,6 +43,15 @@
         "modules/job-form-filler/content.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "modules/job-match-scorer/content.js"
+      ],
+      "run_at": "document_idle"
     }
   ]
 }

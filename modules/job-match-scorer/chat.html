@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Match Assistant</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="chat.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar: Context Inspector -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Context Inspector</h2>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="resume">My Resume</button>
+                <button class="tab-btn" data-tab="job">Job Desc</button>
+                <button class="tab-btn" data-tab="prompt">Full Prompt</button>
+            </div>
+
+            <div class="tab-content" id="context-content">
+                <pre id="resume-view" class="active">Loading resume...</pre>
+                <pre id="job-view">Loading job description...</pre>
+                <pre id="prompt-view">Loading prompt...</pre>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="update-context-btn">Update Context</button>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-container">
+            <header class="chat-header">
+                <div class="header-info">
+                    <h1>Coach Gemini</h1>
+                    <span class="model-badge" id="current-model">Gemini 1.5 Pro</span>
+                </div>
+                <button id="clear-chat" title="Clear Chat">🗑️</button>
+            </header>
+
+            <div class="messages-area" id="messages-area">
+                <!-- Messages will appear here -->
+                <div class="message system">
+                    <div class="content">
+                        Initialized with your Resume and Job Description. Ask me anything!
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <textarea id="user-input" placeholder="Ask how to improve your resume..." rows="1"></textarea>
+                <button id="send-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Use type="module" to enable imports -->
+    <script src="chat.js" type="module"></script>
+</body>
+
+</html>

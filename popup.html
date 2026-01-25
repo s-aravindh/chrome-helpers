@@ -12,7 +12,7 @@
   <div class="container">
     <header>
       <h1>Chrome Helpers</h1>
-      <span class="version">v1.0</span>
+      <span class="version">v1.1</span>
     </header>
 
     <div class="features-list">
@@ -35,28 +35,51 @@
           <p>Auto-fill job application forms</p>
         </div>
         <div class="feature-controls">
-          <div class="feature-controls">
-            <button id="fill-form-btn" class="action-btn">Fill Form</button>
-            <button id="form-filler-settings" class="settings-btn" title="Configure Form Filler">⚙️</button>
-          </div>
+          <button id="fill-form-btn" class="action-btn">Fill Form</button>
+          <button id="form-filler-settings" class="settings-btn" title="Configure Form Filler">⚙️</button>
         </div>
       </div>
 
-      <!-- Placeholder Feature: Job Match Scorer (Disabled) -->
-      <div class="feature-item disabled">
+      <!-- Feature: Job Match Scorer -->
+      <div class="feature-item">
         <div class="feature-info">
           <h2>Job Match Scorer</h2>
-          <p class="coming-soon">Coming Soon</p>
+          <p>Analyze fit with your resume</p>
         </div>
-        <label class="switch">
-          <input type="checkbox" disabled>
-          <span class="slider round"></span>
-        </label>
+        <div class="feature-controls">
+          <button id="analyze-job-btn" class="action-btn" style="background-color: #9b59b6;">Analyze</button>
+          <button id="job-match-settings" class="settings-btn" title="Configure Resume & API Key">⚙️</button>
+        </div>
+      </div>
+
+      <!-- Analyis Preview (New) -->
+      <div id="analysis-preview" class="analysis-result hidden" style="border-left: 4px solid #3498db;">
+        <h3 style="margin-top: 0; font-size: 14px;">Review Job Description</h3>
+        <textarea id="job-description-preview"
+          style="width: 100%; height: 100px; margin: 10px 0; font-size: 11px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+        <div style="display: flex; gap: 10px;">
+          <button id="confirm-analyze-btn" class="action-btn" style="background-color: #2ecc71;">Run AI
+            Analysis</button>
+          <button id="cancel-preview-btn" class="action-btn" style="background-color: #95a5a6;">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Analysis Result Container -->
+      <div id="analysis-result" class="analysis-result hidden">
+        <div class="score-ring">
+          <span id="match-score">--</span>
+          <span class="label">Match</span>
+        </div>
+        <div id="match-summary" class="summary"></div>
+        <div id="match-feedback" class="feedback"></div>
+        <button id="chat-with-coach-btn" class="action-btn"
+          style="margin-top: 15px; background-color: #34495e; font-size: 0.9rem;">💬 Chat with Coach</button>
       </div>
 
     </div>
   </div>
-  <script src="popup.js"></script>
+  <!-- Use type="module" to support imports -->
+  <script src="popup.js" type="module"></script>
 </body>
 
 </html>

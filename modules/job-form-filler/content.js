@@ -52,6 +52,7 @@
             if (result.jobFormFillerEnabled !== false && result.jobFillerProfile) {
                 profileData = result.jobFillerProfile;
                 // Form filling is now triggered manually via popup
+                // observeMutations(); // Disabled for manual-only mode
             }
         });
     }
