@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chrome Helpers</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Chrome Helpers</h1>
+      <span class="version">v1.0</span>
+    </header>
+
+    <div class="features-list">
+      <!-- Feature: Hide Shorts -->
+      <div class="feature-item">
+        <div class="feature-info">
+          <h2>Hide YouTube Shorts</h2>
+          <p>Remove Shorts from Feed & Sidebar</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-shorts">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <!-- Feature: Job Form Filler -->
+      <div class="feature-item">
+        <div class="feature-info">
+          <h2>Job Form Filler</h2>
+          <p>Auto-fill job application forms</p>
+        </div>
+        <div class="feature-controls">
+          <div class="feature-controls">
+            <button id="fill-form-btn" class="action-btn">Fill Form</button>
+            <button id="form-filler-settings" class="settings-btn" title="Configure Form Filler">⚙️</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder Feature: Job Match Scorer (Disabled) -->
+      <div class="feature-item disabled">
+        <div class="feature-info">
+          <h2>Job Match Scorer</h2>
+          <p class="coming-soon">Coming Soon</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" disabled>
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

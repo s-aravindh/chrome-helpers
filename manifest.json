@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Helpers",
+  "version": "1.0",
+  "description": "A suite of productivity helpers including YouTube Shorts Remover and Job Form Filler.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "js": [
+        "modules/youtube-shorts-remover/content.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "modules/job-form-filler/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

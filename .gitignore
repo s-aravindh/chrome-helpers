@@ -1,0 +1,26 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Extension Specific
+*.pem
+*.crx
+
+# Node (if added later)
+node_modules/
+package-lock.json
+
+# Temporary / Log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# User artifacts
+test-form.html
