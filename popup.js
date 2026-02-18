@@ -7,6 +7,9 @@ const formFillerSettingsBtn = document.getElementById('form-filler-settings');
 const fillFormBtn = document.getElementById('fill-form-btn');
 const analyzeJobBtn = document.getElementById('analyze-job-btn');
 const jobMatchSettingsBtn = document.getElementById('job-match-settings');
+const extractJobDescBtn = document.getElementById('extract-job-desc-btn');
+const jobDescOutput = document.getElementById('job-desc-output');
+const jobDescText = document.getElementById('job-desc-text');
 
 // Analysis UI Elements
 const analysisResult = document.getElementById('analysis-result');
@@ -84,7 +87,45 @@ if (jobMatchSettingsBtn) {
   });
 }
 
-// 5. Job Analyzer Step 1: Extract & Preview
+// 5. Job Description Extractor logic
+if (extractJobDescBtn) {
+  extractJobDescBtn.addEventListener('click', async () => {
+    const originalText = extractJobDescBtn.textContent;
+    extractJobDescBtn.textContent = 'Extracting...';
+    extractJobDescBtn.disabled = true;
+
+    try {
+      const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!tabs[0]) throw new Error('No active tab');
+
+      let pageData;
+      try {
+        pageData = await chrome.tabs.sendMessage(tabs[0].id, { action: 'extract_job_description' });
+      } catch (_) {
+        await chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          files: ['modules/job-description-extractor/content.js']
+        });
+        await new Promise(resolve => setTimeout(resolve, 120));
+        pageData = await chrome.tabs.sendMessage(tabs[0].id, { action: 'extract_job_description' });
+      }
+
+      if (!pageData || !pageData.success || !pageData.text) {
+        throw new Error(pageData?.error || 'Could not extract job description from this page');
+      }
+
+      jobDescText.value = pageData.text;
+      jobDescOutput.classList.remove('hidden');
+    } catch (error) {
+      alert(`Extraction failed: ${error.message}`);
+    } finally {
+      extractJobDescBtn.textContent = originalText;
+      extractJobDescBtn.disabled = false;
+    }
+  });
+}
+
+// 6. Job Analyzer Step 1: Extract & Preview
 if (analyzeJobBtn) {
   analyzeJobBtn.addEventListener('click', async () => {
     // Reset UI
@@ -142,7 +183,7 @@ if (analyzeJobBtn) {
   });
 }
 
-// 6. Job Analyzer Step 2: Confirm & Run AI
+// 7. Job Analyzer Step 2: Confirm & Run AI
 if (confirmAnalyzeBtn) {
   confirmAnalyzeBtn.addEventListener('click', async () => {
     if (!currentConfig) return;

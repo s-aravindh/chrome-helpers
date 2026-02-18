@@ -52,6 +52,15 @@
         "modules/job-match-scorer/content.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "modules/job-description-extractor/content.js"
+      ],
+      "run_at": "document_idle"
     }
   ]
 }

@@ -25,6 +25,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize
     async function init() {
+        // Debug Markdown Library Loading
+        if (typeof marked === 'undefined' && typeof window.marked === 'undefined') {
+            console.error('Marked library not loaded!');
+            appendMessage('system', 'Warning: Markdown rendering library failed to load. Responses will be raw text.');
+        } else {
+            console.log('Marked library loaded successfully.');
+        }
+
         const data = await chrome.storage.local.get(['chatContext', 'geminiApiKey', 'selectedModel']);
 
         if (!data.geminiApiKey || !data.chatContext) {
@@ -43,15 +51,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         elements.jobView.textContent = jobDescription || "No job description found.";
 
         // Construct Initial History
-        // Turn 1: The big Prompt
+        // Turn 1: The big Prompt (must match matcher.js prompt exactly)
         const initialPrompt = `
         Role: You are an expert ATS (Application Tracking System) and Career Coach.
+
         Task: Analyze the fit between the candidate's RESUME and the JOB DESCRIPTION.
-        RESUME: "${(resumeText || '').substring(0, 30000)}"
-        JOB DESCRIPTION: "${(jobDescription || '').substring(0, 30000)}"
+
+        RESUME:
+        "${(resumeText || '').substring(0, 30000)}"
+
+        JOB DESCRIPTION:
+        "${(jobDescription || '').substring(0, 30000)}"
 
         Output Format: JSON only.
-        ...[JSON Schema]...
+        {
+            "matchScore": number (0-100),
+            "keyMatchingSkills": ["skill1", "skill2"],
+            "missingCriticalSkills": ["skill1", "skill2"],
+            "improvementTips": ["tip1", "tip2", "tip3"],
+            "summary": "1-2 sentence verdict."
+        }
+        Never include markdown blocks like \`\`\`json. Just the raw JSON.
         `;
 
         // Update Prompt View
@@ -122,12 +142,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             for await (const chunk of stream) {
                 if (firstChunk) {
-                    contentDiv.textContent = '';
+                    contentDiv.textContent = ''; // Clear "Thinking..."
                     firstChunk = false;
                 }
                 fullResponse += chunk;
-                // Simple auto-scroll
-                contentDiv.textContent = fullResponse;
+                // Render Markdown on the fly (might be jittery but better than raw)
+                /* 
+                   Note: Streaming markdown is tricky. Simple concatenation + marked.parse 
+                   works reasonably well for small chunks but can break matching (e.g. `**word`).
+                   For now, we just update the text and render at the end?
+                   No, user wants to see it stream.
+                   We will set innerHTML on every chunk.
+                */
+                const md = (window.marked && window.marked.parse) ? window.marked.parse(fullResponse) : fullResponse;
+                contentDiv.innerHTML = md;
+
                 elements.chatArea.scrollTop = elements.chatArea.scrollHeight;
             }
 
@@ -144,21 +173,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     function appendMessage(role, text) {
         const div = document.createElement('div');
         div.className = `message ${role}`;
-        div.innerHTML = `<div class="content">${escapeHtml(text)}</div>`;
+
+        let htmlContent = text;
+
+        // Try global marked first
+        if (window.marked && window.marked.parse) {
+            htmlContent = window.marked.parse(text);
+        } else if (typeof marked !== 'undefined' && marked.parse) {
+            htmlContent = marked.parse(text);
+        }
+
+        div.innerHTML = `<div class="content">${htmlContent}</div>`;
         elements.chatArea.appendChild(div);
         elements.chatArea.scrollTop = elements.chatArea.scrollHeight;
         return div;
-    }
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;")
-            .replace(/\n/g, "<br>");
     }
 
     init();

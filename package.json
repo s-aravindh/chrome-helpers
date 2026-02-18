@@ -1,0 +1,19 @@
+{
+  "name": "chrome-helpers",
+  "version": "1.0.0",
+  "description": "A suite of productivity helpers including YouTube Shorts Remover, Job Form Filler, and Job Match Scorer",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Chrome extension - load unpacked in chrome://extensions'",
+    "lint": "echo 'No linting configured'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "youtube-shorts",
+    "job-form-filler",
+    "job-match-scorer"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {}
+}

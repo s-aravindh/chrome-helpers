@@ -52,6 +52,24 @@
         </div>
       </div>
 
+      <!-- Feature: Job Description Extractor -->
+      <div class="feature-item">
+        <div class="feature-info">
+          <h2>Job Description Extractor</h2>
+          <p>Extract clean job text from current page</p>
+        </div>
+        <div class="feature-controls">
+          <button id="extract-job-desc-btn" class="action-btn" style="background-color: #27ae60;">Extract</button>
+        </div>
+      </div>
+
+      <div id="job-desc-output" class="analysis-result hidden" style="border-left: 4px solid #27ae60;">
+        <h3 style="margin-top: 0; font-size: 14px;">Extracted Job Description</h3>
+        <textarea id="job-desc-text"
+          style="width: 100%; height: 140px; margin-top: 10px; font-size: 11px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"
+          readonly></textarea>
+      </div>
+
       <!-- Analyis Preview (New) -->
       <div id="analysis-preview" class="analysis-result hidden" style="border-left: 4px solid #3498db;">
         <h3 style="margin-top: 0; font-size: 14px;">Review Job Description</h3>
